@@ -8,7 +8,7 @@ import Namegenerator from "./pages/Namegenerator/Namegenerator.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter basename="nestle-chatbot-client">
+    <BrowserRouter>
       <Routes>
         <Route path="/mamabot" element={<Mamabot />} />
         <Route path="/namegenerator" element={<Namegenerator />} />
