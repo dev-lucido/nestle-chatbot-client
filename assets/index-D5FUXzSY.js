@@ -51,4 +51,4 @@ Let's begin! 🌟`,Ol=[{key:`language`,question:`🌐 Which language do you pref
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
-      `})]})}(0,y.createRoot)(document.getElementById(`root`)).render((0,G.jsx)(v.StrictMode,{children:(0,G.jsx)(Tn,{basename:`nestle-chatbot-client`,children:(0,G.jsxs)(Lt,{children:[(0,G.jsx)(Ft,{path:`/mamabot`,element:(0,G.jsx)(El,{})}),(0,G.jsx)(Ft,{path:`/namegenerator`,element:(0,G.jsx)(kl,{})})]})})}));
+      `})]})}(0,y.createRoot)(document.getElementById(`root`)).render((0,G.jsx)(v.StrictMode,{children:(0,G.jsx)(Tn,{children:(0,G.jsxs)(Lt,{children:[(0,G.jsx)(Ft,{path:`/mamabot`,element:(0,G.jsx)(El,{})}),(0,G.jsx)(Ft,{path:`/namegenerator`,element:(0,G.jsx)(kl,{})})]})})}));
