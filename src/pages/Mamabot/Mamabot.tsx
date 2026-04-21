@@ -65,6 +65,7 @@ export default function Mamabot() {
   const [typing, setTyping] = useState(false);
 
   const [awaitingPhase2Confirm, setAwaitingPhase2Confirm] = useState(false);
+  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -177,19 +178,56 @@ export default function Mamabot() {
     }
   };
 
-  const handlePhase2Confirm = () => {
-    setAwaitingPhase2Confirm(false);
-    // Inject a "yes" as a user message and send it
-    const confirmMessage =
-      language === "si"
-        ? "ඔව්, කරුණාකර මට තව කියන්න."
-        : language === "ta"
-          ? "ஆம், தயவுசெய்து சொல்லுங்கள்"
-          : "Yes, please tell me more";
+  // const handlePhase2Confirm = () => {
+  //   setAwaitingPhase2Confirm(false);
+  //   // Inject a "yes" as a user message and send it
+  //   const confirmMessage =
+  //     language === "si"
+  //       ? "ඔව්, කරුණාකර මට තව කියන්න."
+  //       : language === "ta"
+  //         ? "ஆம், தயவுசெய்து சொல்லுங்கள்"
+  //         : "Yes, please tell me more";
+
+  //   const newMessages: Message[] = [
+  //     ...messages,
+  //     { role: "user", content: confirmMessage },
+  //   ];
+  //   setMessages(newMessages);
+  //   sendMessageFromHistory(newMessages);
+  // };
+
+  const handlePhase2Confirm = (topic: string) => {
+    setSelectedTopics((prev) => new Set(prev).add(topic));
+
+    const topicMessages: Record<string, Record<string, string>> = {
+      development: {
+        en: "Tell me about my baby's development milestones at this stage.",
+        si: "මෙම අදියරේදී මගේ දරුවාගේ වර්ධන සන්ධිස්ථාන ගැන කියන්න.",
+        ta: "இந்த கட்டத்தில் என் குழந்தையின் வளர்ச்சி மைல்கற்கள் பற்றி சொல்லுங்கள்.",
+      },
+      physical: {
+        en: "What physical changes should I expect in my body at this stage?",
+        si: "මෙම අදියරේදී මගේ සිරුරේ ශාරීරික වෙනස්කම් මොනවාද?",
+        ta: "இந்த கட்டத்தில் என் உடலில் என்ன உடல் மாற்றங்கள் எதிர்பார்க்கலாம்?",
+      },
+      emotional: {
+        en: "What about my emotional and mental wellbeing at this stage?",
+        si: "මෙම අදියරේදී මගේ චිත්තවේගීය හා මානසික සෞඛ්‍යය ගැන කුමක් කිව හැකිද?",
+        ta: "இந்த கட்டத்தில் என் உணர்வு மற்றும் மன நலன் பற்றி என்ன சொல்லலாம்?",
+      },
+      nutrition: {
+        en: "Give me nutrition and lifestyle tips for this stage of pregnancy.",
+        si: "ගර්භණී මෙම අදියර සඳහා පෝෂණ හා ජීවන රටා උපදෙස් දෙන්න.",
+        ta: "கர்ப்பத்தின் இந்த கட்டத்திற்கான ஊட்டச்சத்து மற்றும் வாழ்க்கை முறை குறிப்புகள் கொடுங்கள்.",
+      },
+    };
+
+    const lang = language ?? "en";
+    const message = topicMessages[topic][lang];
 
     const newMessages: Message[] = [
       ...messages,
-      { role: "user", content: confirmMessage },
+      { role: "user", content: message },
     ];
     setMessages(newMessages);
     sendMessageFromHistory(newMessages);
@@ -370,7 +408,7 @@ export default function Mamabot() {
         <div ref={bottomRef} />
       </div>
 
-      {awaitingPhase2Confirm && !typing && (
+      {/* {awaitingPhase2Confirm && !typing && (
         <div className="phase2-confirm">
           <button onClick={handlePhase2Confirm}>
             {language === "si"
@@ -379,6 +417,49 @@ export default function Mamabot() {
                 ? "ஆம், மேலும் சொல்லுங்கள்"
                 : "Yes, tell me more 👇"}
           </button>
+        </div>
+      )} */}
+
+      {awaitingPhase2Confirm && !typing && (
+        <div className="phase2-confirm">
+          {[
+            {
+              key: "development",
+              en: "👶 Baby development",
+              si: "👶 දරු වර්ධනය",
+              ta: "👶 குழந்தை வளர்ச்சி",
+            },
+            {
+              key: "physical",
+              en: "🤰 Physical changes",
+              si: "🤰 ශාරීරික වෙනස්කම්",
+              ta: "🤰 உடல் மாற்றங்கள்",
+            },
+            {
+              key: "emotional",
+              en: "🧠 Emotional wellbeing",
+              si: "🧠 චිත්තවේගීය සෞඛ්‍යය",
+              ta: "🧠 உணர்வு நலன்",
+            },
+            {
+              key: "nutrition",
+              en: "🥗 Nutrition & lifestyle",
+              si: "🥗 පෝෂණය සහ ජීවන රටාව",
+              ta: "🥗 ஊட்டச்சத்து & வாழ்க்கை முறை",
+            },
+          ].map((topic) => (
+            <button
+              key={topic.key}
+              onClick={() => handlePhase2Confirm(topic.key)}
+              style={selectedTopics.has(topic.key) ? { opacity: 0.5 } : {}}
+            >
+              {language === "si"
+                ? topic.si
+                : language === "ta"
+                  ? topic.ta
+                  : topic.en}
+            </button>
+          ))}
         </div>
       )}
 

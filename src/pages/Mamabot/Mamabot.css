@@ -285,3 +285,30 @@ body {
   background: #d14c8f;
   color: white;
 }
+
+
+.phase2-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.phase2-confirm button {
+  flex: 1 1 calc(50% - 4px);  /* two per row */
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #d14c8f;
+  background: white;
+  color: #d14c8f;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.phase2-confirm button:hover {
+  background: #d14c8f;
+  color: white;
+}
